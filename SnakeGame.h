@@ -1,5 +1,4 @@
 #include <ncurses.h>
-#include <cstdlib>
 #include <vector>
 #include "Color.h"
 #include "Constant.h"
@@ -10,7 +9,7 @@ struct Item
 {
 	int x;
 	int y;
-	bool Growth;
+	bool isGrowth;
 };
 
 struct Mission
@@ -42,7 +41,7 @@ private:
 
 public:
     SnakeGame();
-		~SnakeGame();
+	~SnakeGame();
 
 	bool checkMissionClear();
 	void setGate(int Map[MAX][MAX]);
