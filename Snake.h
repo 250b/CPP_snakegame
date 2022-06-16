@@ -29,14 +29,14 @@ private:
 	Node* Head;
 	Direction direction, last_direction;
 	int oldClock;
-	int level;
+	int length;
 	int growCount;
 	int poisonCount;
 	int gateCount;
-	bool moveTic;
+	// bool moveTic;
 
 public:
-  Snake();
+  	Snake();
 	~Snake();
 
 	bool checkTail(int x, int y);
@@ -55,7 +55,7 @@ public:
 	void moveTail(Node* Node);
 	Direction nextDirection(Direction direction, int count);
 
-	int getLength() { return level; }
+	int getLength() { return length; }
 	int getGrowthCount() { return growCount; }
 	int getPoisonCount() { return poisonCount; }
 	int getGate() { return gateCount; }
