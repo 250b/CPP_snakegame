@@ -41,14 +41,14 @@ SnakeGame::SnakeGame()
 		} else if (i==2) {
 			for(int x = 5; x <= 10; x++)
 			{
-				map[i][10][x] = map[i][5][x] = WALL;
+				map[i][15][x] = map[i][8][x] = WALL;
 				wallList[i].push_back(make_pair(10, x));
 				wallList[i].push_back(make_pair(5, x));
 			}
 		} else if (i==3) {
 			for(int x = 3; x <= 10; x++)
 			{
-				map[i][10][x] = map[i][5][x] = WALL;
+				map[i][x][15] = map[i][x][12] = WALL;
 				wallList[i].push_back(make_pair(10, x));
 				wallList[i].push_back(make_pair(5, x));
 			}
@@ -201,7 +201,7 @@ void SnakeGame::setGate(int map[MAX][MAX])
 			}
 		}
 		while(i == 1 && gate[0].y == gate[1].y && gate[0].x == gate[1].x);
-		
+
 		// 게이트가 있다면
 		if (lastY != -1 && lastX != -1)
 			// 게이트 제거
@@ -304,7 +304,7 @@ void SnakeGame::gameStart()
 		}
 		// 맵 다시 그리기
 		renderMap(currentMap);
-		
+
 		// 1ms 뒤에 실행 (실행 지연시키기)
 		napms(1);
 	}
