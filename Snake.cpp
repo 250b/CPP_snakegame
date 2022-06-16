@@ -148,12 +148,14 @@ bool Snake::move(int Map[][MAX], Gate gate[2])
 	if (checkTail(Head->x, Head->y))
 	{
 		deleteSnake(Head);
+		Head=NULL;
 		return false;
 	}
 	isMaxGate(Map, gate);
 	if (Map[Head->y][Head->x] == WALL)
 	{
 		deleteSnake(Head);
+		Head=NULL;
 		return false;
 	}
 	moveTail(Head);
