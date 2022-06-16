@@ -1,4 +1,6 @@
 #include "Snake.h"
+#include <stdlib.h>
+
 
 
 Snake::Snake()
@@ -8,7 +10,7 @@ Snake::Snake()
 	growCount = 0;
 	poisonCount = 0;
 	gateCount = 0;
-	moveTic = false;
+	// moveTic = false;
 }
 //snake의 머리부터 끝까지를 blank로 바꾸며 map을 초기화
 void Snake::deleteMap(int Map[][MAX])
@@ -84,8 +86,8 @@ bool Snake::poison()
 		{
 			delete temp->next;
 			temp->next = NULL;
-			level--;
-			if (level <= 2)
+			length--;
+			if (length <= 2)
 				return false;
 			return true;
 		}
@@ -103,7 +105,7 @@ void Snake::growth()
 	temp->next->x = temp->lastX;
 	temp->next->y = temp->lastY;
 	temp->next->next = NULL;
-	level++;
+	length++;
 }
 //먹은 아이템의 종류 확인
 bool Snake::checkItem(int Map[MAX][MAX])
@@ -204,7 +206,7 @@ void Snake::setSnake(int x, int y)
 		temp->next = add;
 	}
 	oldClock = 0;
-	level = 3;
+	length = 3;
 	growCount = 0;
 	poisonCount = 0;
 	gateCount = 0;
@@ -228,18 +230,26 @@ void Snake::input()
 	switch (ch)
 	{
 	case KEY_LEFT:
+		if (last_direction == RIGHT)
+			exit(0);
 		if (last_direction != RIGHT)
 			direction = LEFT;
 		break;
 	case KEY_RIGHT:
+		if (last_direction == LEFT)
+			exit(0);
 		if (last_direction != LEFT)
 			direction = RIGHT;
 		break;
 	case KEY_UP:
+		if (last_direction == DOWN)
+			exit(0);
 		if (last_direction != DOWN)
 			direction = UP;
 		break;
 	case KEY_DOWN:
+		if (last_direction == UP)
+			exit(0);
 		if (last_direction != UP)
 			direction = DOWN;
 		break;
