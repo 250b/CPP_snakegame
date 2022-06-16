@@ -35,22 +35,16 @@ SnakeGame::SnakeGame()
 			for(int y = 5; y <= 10; y++)
 			{
 				map[i][y][5] = map[i][y][10] = WALL;
-				wallList[i].push_back(make_pair(y, 5));
-				wallList[i].push_back(make_pair(y, 10));
 			}
 		} else if (i==2) {
 			for(int x = 5; x <= 10; x++)
 			{
 				map[i][15][x] = map[i][8][x] = WALL;
-				wallList[i].push_back(make_pair(10, x));
-				wallList[i].push_back(make_pair(5, x));
 			}
 		} else if (i==3) {
 			for(int x = 3; x <= 10; x++)
 			{
 				map[i][x][15] = map[i][x][12] = WALL;
-				wallList[i].push_back(make_pair(10, x));
-				wallList[i].push_back(make_pair(5, x));
 			}
 		}
 
