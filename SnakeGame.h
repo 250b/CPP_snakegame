@@ -1,6 +1,5 @@
 #include <ncurses.h>
 #include <cstdlib>
-#include <vector>
 #include "Color.h"
 #include "Constant.h"
 #include "Snake.h"
@@ -35,7 +34,6 @@ private:
 
 	int stage;
 	int map[4][MAX][MAX];
-	vector<pair<int, int>> wallList[4];
 
 	int itemTimer;
 	int gateTimer;
