@@ -93,7 +93,7 @@ SnakeGame::SnakeGame()
 	mission[3].isMaxGate = false;
 
 
-	// 아이템 삭제
+	// 아이템 초기화
 	for (int i = 0; i < 2; i++)
 	{
 		itemList[i].x = -1;
@@ -184,39 +184,24 @@ void SnakeGame::resetItems(int Map[MAX][MAX])
 //실질적으로 게이트를 만드는 부분
 void SnakeGame::setGate(int map[MAX][MAX])
 {
-	int last_r = -1;
 	for (int i = 0; i < 2; i++)
 	{
 		int lastY = gate[i].y;
 		int lastX = gate[i].x;
 
-		if(rand() % 3 != 0) {
-			do
-			{
-				if (rand() % 2 == 0) {
-					gate[i].x = rand() % 2 == 2 ? 0 : MAX - 1;
-					gate[i].y = rand() % (MAX - 2) + 1;
-				}
-				else {
-					gate[i].x = rand() % (MAX - 2) + 1;
-					gate[i].y = rand() % 2 == 2 ? 0 : MAX - 1;
-				}
+		do
+		{
+			if (rand() % 2 == 0) {
+				gate[i].x = MAX - 1;
+				gate[i].y = rand() % (MAX - 2) + 1;
 			}
-			while(i == 1 && gate[0].y == gate[1].y && gate[0].x == gate[1].x);
-		}
-		else {
-			int r;
-			do
-			{
-				r = rand() % wallList[stage - 1].size();
+			else {
+				gate[i].x = 0;
+				gate[i].y = rand() % (MAX - 2) + 1;
 			}
-			while(r == last_r);
-
-			gate[i].y = wallList[stage - 1][r].first;
-			gate[i].x = wallList[stage - 1][r].second;
-			last_r = r;
 		}
-
+		while(i == 1 && gate[0].y == gate[1].y && gate[0].x == gate[1].x);
+		
 		// 게이트가 있다면
 		if (lastY != -1 && lastX != -1)
 			// 게이트 제거
@@ -241,8 +226,8 @@ void SnakeGame::setItem(int Map[MAX][MAX])
 		while(snake.checkNode(itemList[i].x, itemList[i].y)
 			|| Map[itemList[i].y][itemList[i].x] != BLANK);
 
-		itemList[i].Growth = rand() % 2 == 0 ? true : false;
-		if (itemList[i].Growth)
+		itemList[i].isGrowth = rand() % 2 == 0 ? true : false;
+		if (itemList[i].isGrowth)
 			Map[itemList[i].y][itemList[i].x] = GROWTH;
 		else
 			Map[itemList[i].y][itemList[i].x] = POISON;
@@ -289,40 +274,37 @@ void SnakeGame::gameStart()
 		if(check == -1)
 			break;
 
-		if (check)
+		// 미션 다 통과하면
+		if (checkMissionClear())
 		{
-			// 미션 다 통과하면
-			if (checkMissionClear())
+			stage++;
+			if (stage > 4)
+				return;
+
+			for (int y = 0; y < MAX; y++)
 			{
-				stage++;
-				if (stage > 4)
-					return;
-
-				for (int y = 0; y < MAX; y++)
+				for (int x = 0; x < MAX; x++)
 				{
-					for (int x = 0; x < MAX; x++)
-					{
-						// snake 지우기
-						if (currentMap[y][x] == HEAD || currentMap[y][x] == BODY)
-							currentMap[y][x] = BLANK;
-					}
+					// snake 지우기
+					if (currentMap[y][x] == HEAD || currentMap[y][x] == BODY)
+						currentMap[y][x] = BLANK;
 				}
-				// snake 재배치
-				snake.setSnake(MAX / 2 - 2, MAX / 2);
-				snake.updateMap(currentMap);
-
-				// gate 초기화
-				currentMap[gate[0].y][gate[0].x] = WALL;
-				currentMap[gate[1].y][gate[1].x] = WALL;
-
-				// item시간 초기화
-				itemTimer = 0;
-				gateTimer = 0;
 			}
-			// 맵 다시 그리기
-			renderMap(currentMap);
-		}
+			// snake 재배치
+			snake.setSnake(MAX / 2 - 2, MAX / 2);
+			snake.updateMap(currentMap);
 
+			// gate 초기화
+			currentMap[gate[0].y][gate[0].x] = WALL;
+			currentMap[gate[1].y][gate[1].x] = WALL;
+
+			// item시간 초기화
+			itemTimer = 0;
+			gateTimer = 0;
+		}
+		// 맵 다시 그리기
+		renderMap(currentMap);
+		
 		// 1ms 뒤에 실행 (실행 지연시키기)
 		napms(1);
 	}
