@@ -1,4 +1,5 @@
 #include <ncurses.h>
+#include <cstdlib>
 #include <vector>
 #include "Color.h"
 #include "Constant.h"
